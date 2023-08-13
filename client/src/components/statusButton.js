@@ -2,6 +2,7 @@
 
 import React from "react";
 import axios from "axios";
+import { baseURL } from "../config";
 
 const StatusButton = (props) => {
 	//-----------------------------------
@@ -16,7 +17,7 @@ const StatusButton = (props) => {
 
 	const changeStatus = async (projectID, status) => {
 		try {
-			await axios.put("http://localhost:8000/api/projects/" + projectID, {
+			await axios.put(`${baseURL}/api/projects/` + projectID, {
 				projectStatus: status,
 			});
 			setLoading(true);

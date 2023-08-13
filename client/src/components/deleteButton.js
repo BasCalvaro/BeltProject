@@ -2,6 +2,7 @@
 
 import React from "react";
 import axios from "axios";
+import { baseURL } from "../config";
 
 const DeleteButton = (props) => {
 	//-----------------------------------
@@ -16,7 +17,7 @@ const DeleteButton = (props) => {
 
 	const deleteProject = async (projectID) => {
 		try {
-			await axios.delete("http://localhost:8000/api/projects/" + projectID);
+			await axios.delete(`${baseURL}/api/projects/` + projectID);
 			setLoading(true);
 		} catch (err) {
 			console.log(err);

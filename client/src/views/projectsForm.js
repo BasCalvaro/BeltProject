@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import { baseURL } from "../config";
 
 const ProjectForm = () => {
 	// ---------------------------------------------
@@ -32,7 +33,7 @@ const ProjectForm = () => {
 		e.preventDefault();
 		try {
 			await axios
-				.post("http://localhost:8000/api/projects/new", {
+				.post(`${baseURL}/api/projects/new`, {
 					projectName: projects.projectName, // Add the name for the new projects
 					projectDate: projects.projectDate, // Add the Date for the new projects
 					projectStatus: "Backlog", // Define the status for the new projects

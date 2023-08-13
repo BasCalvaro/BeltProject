@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback } from "react";
 
 import axios from "axios";
 import _ from "lodash";
+import { baseURL } from "../config";
 
 import ProjectsList from "../components/projectsList";
 import NewProject from "../components/newProject";
@@ -17,7 +18,7 @@ const Main = () => {
 	const [projects, setProjects] = useState([]);
 
 	const getAllProjects = useCallback(async () => {
-		axios.get("http://localhost:8000/api/projects/").then((res) => {
+		axios.get(`${baseURL}/api/projects/`).then((res) => {
 			setProjects(res.data);
 			setLoading(false);
 		});
