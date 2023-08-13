@@ -5,6 +5,8 @@
 // 1) Imports of 3rd-party Libraries
 const express = require("express");
 const cors = require("cors");
+require("dotenv").config();
+
 
 // 2) Intiliazing Express instance ('app') and define auxiliar variables
 const app = express();
@@ -32,6 +34,6 @@ const projectRouter = require("./routes/projects.routes");
 projectRouter(app);
 
 // 7) Running instance of Express server in selected port
-app.listen(port, () => {
+app.listen((process.env.PORT), () => {
 	console.log(`Server started at port: ${port}`);
 });
