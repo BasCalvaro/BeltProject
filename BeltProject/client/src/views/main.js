@@ -1,7 +1,11 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+// This component work as a our main manager of the views and states for our manager
+import React, { useState, useEffect, useCallback } from "react";
 
-import AuthorList from "../components/authorsList";
+import axios from "axios";
+import _ from "lodash";
+
+import ProjectsList from "../components/projectsList";
+import NewProject from "../components/newProject";
 
 const Main = () => {
 	// ---------------------------------------------
@@ -10,6 +14,24 @@ const Main = () => {
 
 	const [loading, setLoading] = useState(true);
 
+	const [projects, setProjects] = useState([]);
+
+	const getAllProjects = useCallback(async () => {
+		axios.get("http://localhost:8000/api/projects/").then((res) => {
+			setProjects(res.data);
+			setLoading(false);
+		});
+	}, [setLoading]);
+
+	useEffect(() => {
+		if (loading) {
+			getAllProjects();
+		}
+	}, [loading, getAllProjects]);
+
+	const sortProjectsByDate = (projects) => {
+    return _.sortBy(projects, (project) => new Date(project.projectDate));
+  };
 	// ---------------------------------------------
 	// II) HANDLERS & AUX FUNCTIONS
 	// ---------------------------------------------
@@ -19,11 +41,42 @@ const Main = () => {
 	// ---------------------------------------------
 
 	return (
-		<div className="col px-5">
-			<div className="mt-2 pb-2">
-				<Link to={"/new"}>Add an author</Link>
+		<div>
+			<div className="d-flex justify-content-center">
+				{projects.data && (
+					<>
+						<ProjectsList
+							projects={sortProjectsByDate(
+                projects.data.filter((project) => project.projectStatus === "Backlog")
+              )}
+							setProjects={setProjects}
+							loading={loading}
+							setLoading={setLoading}
+							status={"Backlog"}
+						/>
+						<ProjectsList
+							projects={sortProjectsByDate(projects.data.filter(
+								(project) => project.projectStatus === "In Progress"
+							))}
+							setProjects={setProjects}
+							loading={loading}
+							setLoading={setLoading}
+							status={"In Progress"}
+						/>
+
+						<ProjectsList
+							projects={sortProjectsByDate(projects.data.filter(
+								(project) => project.projectStatus === "Completed"
+							))}
+							setProjects={setProjects}
+							loading={loading}
+							setLoading={setLoading}
+							status={"Completed"}
+						/>
+					</>
+				)}
 			</div>
-			<AuthorList loading={loading} setLoading={setLoading} />
+			<NewProject />
 		</div>
 	);
 };

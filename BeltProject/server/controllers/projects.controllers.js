@@ -1,5 +1,5 @@
 // ---------------------------------------------------
-// CONTROLLER SETUP - Author
+// CONTROLLER SETUP - Project
 // ---------------------------------------------------
 
 // 1) Importing External Libraries
@@ -7,44 +7,47 @@ const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Types; // Destructuring assignment to get ObjectId
 
 // 2) Importing Model
-const AuthorModel = require("../models/author.models");
+const ProjectModel = require("../models/projects.models");
 
 // 3) Exporting Controller functions
-
-// 3.1) CREATE METHODS
 module.exports = {
-	getAllAuthors: (req, res) => {
-		AuthorModel.find(
+	// 3.1) READ ALL ELEMENTS METHOD
+	getAllProjects: (req, res) => {
+		ProjectModel.find(
 			{},
-			{ _id: true, authorName: true }
+			{ _id: true, projectName: true, projectDate: true, projectStatus: true }
 		)
-			.then((authors) => {
-				res.json({ data: authors });
+			.then((projects) => {
+				res.json({ data: projects });
 			})
 			.catch((error) => {
 				res.status(500).json({ error: error });
 			});
 	},
-	getOneAuthor: (req, res) => {
+
+	// 3.2) READ ONE ELEMENT METHOD
+	getOneProject: (req, res) => {
 		let id = req.params.id;
 		if (!ObjectId.isValid(id))
 			return res
 				.status(400)
 				.json({ message: "id doesn't match the expected format" });
-		AuthorModel.find({ _id: id })
-			.then((authors) => {
-				res.json({ data: authors });
+		ProjectModel.find({ _id: id })
+			.then((projects) => {
+				res.json({ data: projects });
 			})
 			.catch((error) => {
 				res.status(500).json({ error: error });
 			});
 	},
-	createAuthor: (req, res) => {
+
+	// 3.3) CREATE A NEW ELEMENT METHOD
+	createProject: (req, res) => {
 		let data = req.body;
 		console.log(data);
-		AuthorModel.create(data)
-			.then((authors) => {
-				res.json({ data: authors });
+		ProjectModel.create(data)
+			.then((projects) => {
+				res.json({ data: projects });
 			})
 			.catch((error) => {
 				if (error instanceof mongoose.Error.ValidationError) {
@@ -59,13 +62,15 @@ module.exports = {
 				}
 			});
 	},
-	deleteAuthor: (req, res) => {
+
+	// 3.4) DELETE AN ELEMENT METHOD
+	deleteProject: (req, res) => {
 		let id = req.params.id;
 		if (!ObjectId.isValid(id))
 			return res
 				.status(400)
 				.json({ message: "id doesn't match the expected format" });
-		AuthorModel.deleteOne({ _id: id })
+		ProjectModel.deleteOne({ _id: id })
 			.then(() => {
 				res.json({ success: true });
 			})
@@ -73,7 +78,9 @@ module.exports = {
 				res.status(500).json({ error: error });
 			});
 	},
-	editAuthor: (req, res) => {
+
+	// 3.5) EDIT AN ELEMENT METHOD
+	editProject: (req, res) => {
 		let id = req.params.id;
 		let data = req.body;
 		const updateOptions = {
@@ -84,7 +91,7 @@ module.exports = {
 			return res
 				.status(400)
 				.json({ message: "id doesn't match the expected format" });
-		AuthorModel.findByIdAndUpdate({ _id: id }, data, updateOptions)
+		ProjectModel.findByIdAndUpdate({ _id: id }, data, updateOptions)
 			.then(() => {
 				res.json({ success: true });
 			})

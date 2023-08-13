@@ -6,7 +6,7 @@
 const mongoose = require("mongoose");
 
 // 2) Initializing database
-const db_name = "authors_db"
+const db_name = "ProjectManager_db";
 
 // 2) Setting connection to Mongo DB using 'mongoose' instance
 mongoose
@@ -15,7 +15,8 @@ mongoose
 		useUnifiedTopology: true, // Avoids connection errors -> enables new unified topology engine for MongoDB Node.js driver
 	})
 	.then(() => {
-    console.log("Established a connection to:" + db_name);
-}).catch((err) => {
-    console.log("Something went wrong when connecting to the database", err);
-});
+		console.log("Established a connection to:" + db_name + " with Mongo");
+	})
+	.catch((err) => {
+		console.log("Something went wrong when connecting to the database", err);
+	});

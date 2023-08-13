@@ -1,31 +1,23 @@
+// This component work as a button to delete the task and projects that we complete on our manager
+
 import React from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 const DeleteButton = (props) => {
 	//-----------------------------------
 	// I) HOOKS & VARIABLES
 	// ----------------------------------
 
-	const { author, setLoading, origin } = props;
-
-	// Navigate Hooks
-	const navigate = useNavigate();
+	const { project, setLoading } = props;
 
 	//-----------------------------------
 	// II) HANDLERS
 	// ----------------------------------
 
-	const deleteAuthor = async (authorID) => {
+	const deleteProject = async (projectID) => {
 		try {
-			const res = await axios.delete(
-				"http://localhost:8000/authors/" + authorID
-			);
-			console.log(res);
+			await axios.delete("http://localhost:8000/api/projects/" + projectID);
 			setLoading(true);
-			if (origin === "details") {
-				navigate("/");
-			}
 		} catch (err) {
 			console.log(err);
 		}
@@ -36,14 +28,14 @@ const DeleteButton = (props) => {
 	// ---------------------------------------------
 
 	return (
-		<>
+		<div className="pt-3">
 			<button
-				className="mx-1 btn btn-danger opacity-75"
-				onClick={(e) => deleteAuthor(author._id)}
+				className="btn btn-danger opacity-75 w-100"
+				onClick={() => deleteProject(project._id)}
 			>
 				Delete
 			</button>
-		</>
+		</div>
 	);
 };
 
