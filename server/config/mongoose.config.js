@@ -10,7 +10,7 @@ const db_name = "ProjectManager_db";
 
 // 2) Setting connection to Mongo DB using 'mongoose' instance
 mongoose
-	.connect(`mongodb://127.0.0.1:27017/${db_name}`, {
+	.connect(`mongodb://localhost/${db_name}`, {
 		useNewUrlParser: true, // Avoids deprecation warnings -> enables new MongoDB connection string parser
 		useUnifiedTopology: true, // Avoids connection errors -> enables new unified topology engine for MongoDB Node.js driver
 	})

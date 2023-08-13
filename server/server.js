@@ -10,7 +10,7 @@ require("dotenv").config();
 
 // 2) Intiliazing Express instance ('app') and define auxiliar variables
 const app = express();
-const port = 8080;
+const port = process.env.PORT;
 
 // 3 Configuring cors in Express instace ('app')
 app.use(

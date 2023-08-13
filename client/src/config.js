@@ -1,6 +1,6 @@
 const environments = {
 	development: "http://localhost:8080",
-	production: "/api",
+	production: "",
 };
 
 const baseURL = environments[process.env.NODE_ENV] || "";
